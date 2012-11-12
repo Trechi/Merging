@@ -1,0 +1,16 @@
+<package>
+  <description brief="RCcontroller">
+
+     RCcontroller
+
+  </description>
+  <author>Johan Vertens</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/RCcontroller</url>
+  <depend package="std_msgs"/>
+  <depend package="roscpp"/>
+  <depend package="serial"/>
+</package>
+
+

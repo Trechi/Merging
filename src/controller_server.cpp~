@@ -1,0 +1,55 @@
+#include <string>
+#include <iostream>
+#include <cstdio>
+
+// OS Specific sleep
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+#include "serial/serial.h"
+
+#include "ros/ros.h"
+#include "QuadroController/channel_values.h"
+
+
+using std::string;
+using std::exception;
+using std::cout;
+using std::cerr;
+using std::endl;
+
+void my_sleep(unsigned long milliseconds) {
+#ifdef _WIN32
+      Sleep(milliseconds); // 100 ms
+#else
+      usleep(milliseconds*1000); // 100 ms
+#endif
+}
+
+void configure_com_port(void)
+{
+  serial::Serial my_serial(1, 57600, serial::Timeout::simpleTimeout(1000));
+}
+
+void chatterCallback(const QuadroController::channel_values::ConstPtr& msg)
+{
+  ROS_INFO("Throttle: [%d]", msg->throttle);
+}
+
+int main(int argc, char **argv)
+{
+
+  ros::init(argc, argv, "controller_server");
+
+  ros::NodeHandle n;
+
+  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+
+  ros::spin();
+
+  
+  return 0;
+}
